@@ -513,7 +513,7 @@ function renderMemory(index){
 
 function updatePhotoCounter(){
   if (!currentPhotoDate) return;
-  polaroidCounter.textContent = '📸 Esta foto fue hace: ' + formatElapsed(currentPhotoDate);
+  polaroidCounter.textContent = 'Esta foto fue hace: ' + formatElapsed(currentPhotoDate);
 }
 
 setInterval(updatePhotoCounter, 1000);
