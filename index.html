@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Novia ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #d63384;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Estilos del Contador Principal */
+        .contador-principal {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .animacion-contenedor {
+            font-size: 80px;
+            margin: 10px 0;
+            animation: latido 1.5s infinite;
+        }
+
+        @keyframes latido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        /* Estilos del Marco Polaroid */
+        .marco-foto {
+            background: #ffffff;
+            padding: 15px 15px 25px 15px;
+            border-radius: 4px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+            max-width: 310px;
+            text-align: center;
+            border: 8px solid #fff;
+            transform: rotate(-1.5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .marco-foto:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .marco-foto img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 2px;
+            background-color: #eee;
+        }
+
+        .texto-foto {
+            margin-top: 15px;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        /* Estilos del Contador de la Foto */
+        .contador-foto {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #777;
+            font-weight: normal;
+        }
+
+        .btn-cambiar {
+            margin-top: 25px;
+            background-color: #d63384;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+        .btn-cambiar:hover {
+            background-color: #b02366;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Llevamos Juntos:</h1>
+    
+    <!-- CONTADOR PRINCIPAL -->
+    <div class="contador-principal" id="tiempoJuntos">Calculando tiempo...</div>
+    
+    <div class="animacion-contenedor">🌳❤️</div>
+
+    <!-- MARCO DIGITAL -->
+    <div class="marco-foto">
+        <img id="fotoNovia" src="" alt="Nuestro momento">
+        <div id="textoNovia" class="texto-foto">Cargando recuerdo...</div>
+        <!-- CONTADOR INTERNO DE LA FOTO -->
+        <div id="tiempoFoto" class="contador-foto"></div>
+    </div>
+
+    <button class="btn-cambiar" onclick="mostrarRecuerdoAleatorio()">Ver otro recuerdo ✨</button>
+
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN 1: TU FECHA DE ANIVERSARIO
+        // Formato: "Año-Mes-DíaTHora:Minutos:Segundos"
+        // ==========================================
+        const fechaInicioRelacion = new Date("2024-07-08T00:00:00"); 
+
+        // ==========================================
+        // CONFIGURACIÓN 2: TUS FOTOS Y SUS FECHAS
+        // Pon la fecha aproximada en la que se tomó cada foto
+        // ==========================================
+        const recuerdos = [
+            {
+                url: "regalo novia/imagenes/31-05-2026.jpg",
+                texto: "La foto de hoy es... de cuando fuimos al McDonals",
+                fechaFoto: new Date("2026-05-31T22:17:00") // Fecha de esta foto
+            },
+            {
+                url: "regalo novia/imagenes/WhatsApp Image 2026-07-29 at 19.43.32 (2).jpeg",
+                texto: "Esta foto fue en nuestro primer viaje ✈️",
+                fechaFoto: new Date("2026-02-15T21:04:00") // Fecha de esta foto
+            },
+            {
+                url: "regalo novia/imagenes/1-12-2024.MOV",
+                texto: "esta foto fue hace...",
+                fechaFoto: new Date("2024-12-01T11:58:00") // Fecha de esta foto
+            }
+        ];
+
+        let recuerdoActual = null;
+
+        // LÓGICA 1: Función para calcular diferencia de tiempo de forma detallada
+        function calcularTiempoTranscurrido(fechaPasada) {
+            const ahora = new Date();
+            const diferenciaMs = ahora - fechaPasada;
+
+            if (diferenciaMs < 0) return "¡Fecha en el futuro!";
+
+            // Conversión matemática de milisegundos a días, horas, minutos y segundos
+            const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferenciaMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferenciaMs % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferenciaMs % (1000 * 60)) / 1000);
+
+            return `${dias} días, ${horas}h, ${minutos}m y ${segundos}s`;
+        }
+
+        // LÓGICA 2: Actualizar el Contador Principal en tiempo real
+        function actualizarContadorPrincipal() {
+            const textoContador = calcularTiempoTranscurrido(fechaInicioRelacion);
+            document.getElementById("tiempoJuntos").innerText = textoContador;
+        }
+
+        // LÓGICA 3: Actualizar el Contador de la Foto actual en tiempo real
+        function actualizarContadorFoto() {
+            if (recuerdoActual && recuerdoActual.fechaFoto) {
+                const tiempoDesdeFoto = calcularTiempoTranscurrido(recuerdoActual.fechaFoto);
+                document.getElementById("tiempoFoto").innerText = `📸 Esta foto fue hace: ${tiempoDesdeFoto}`;
+            }
+        }
+
+        // LÓGICA 4: Cambiar de foto aleatoriamente
+        function mostrarRecuerdoAleatorio() {
+            const indiceAleatorio = Math.floor(Math.random() * recuerdos.length);
+            recuerdoActual = recuerdos[indiceAleatorio];
+
+            // Renderizar elementos en pantalla
+            document.getElementById('fotoNovia').src = recuerdoActual.url;
+            document.getElementById('textoNovia').innerText = recuerdoActual.texto;
+            
+            // Forzar actualización inmediata del tiempo de la foto nueva
+            actualizarContadorFoto();
+        }
+
+        // BUCLE PRINCIPAL: Ejecuta las actualizaciones cada 1 segundo (1000ms)
+        setInterval(() => {
+            actualizarContadorPrincipal();
+            actualizarContadorFoto();
+        }, 1000);
+
+        // Arrancar la primera foto al cargar la página
+        window.onload = () => {
+            mostrarRecuerdoAleatorio();
+            actualizarContadorPrincipal();
+        };
+    </script>
+</body>
+</html>
